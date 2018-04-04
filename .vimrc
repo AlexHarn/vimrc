@@ -83,7 +83,7 @@ endfunction
 " NerdCommenter
 let g:NERDCustomDelimiters = { 'arduino': { 'left': '//', 'leftAlt': '/*', 'rightAlt': '*/' } }
 
-" vim-Latex (see also: LaTeX settings for keybinds)
+" vim-Latex (see also: Latex settings for keybinds)
 set grepprg=grep\ -nH\ $*
 let g:tex_flavor = "latex"
 let g:Tex_BibtexFlavor = 'biber'
@@ -93,9 +93,12 @@ let Tex_FoldedEnvironments = ""
 let Tex_FoldedMisc = ""
 let g:Tex_ShowErrorContext = 0
 let g:Tex_GotoError = 0
+let g:Tex_AdvancedMath = 1
 let g:Tex_Env_{'figure'} =
 \"\\begin{figure}\<CR>\\centering\<CR>\\includegraphics[width=\\textwidth]{<+eps filename+>}
 \\<CR>\\caption{<+caption text+>}\<CR>\\label{fig:<+label+>}\<CR>\\end{figure}<++>"
+let g:Tex_Env_{'frame'} = "\\begin{frame}{<+Title+>}\<CR><+Content+>\<CR>\\end{frame}"
+autocmd BufNewFile,BufRead *.tex call IMAP('EFR', g:Tex_Env_frame,'tex')
 nnoremap <SID>fuck_this_stupid_keybind <Plug>IMAP_JumpForward
 let c='a'
 while c <= 'z'
@@ -184,12 +187,12 @@ autocmd QuickFixCmdPost    l* nested lwindow
 " .vimrc specific settings
 au BufNewFile,BufRead *.vimrc map <buffer> <leader>r :w<CR>:so%<CR>
 
-" LaTeX specific settings
+" Latex specific settings
 au BufNewFile,BufRead *.tex  call SetTex()
 function! SetTex()
-	set tabstop=4
-	set softtabstop=4
-	set shiftwidth=4
+	set tabstop=2
+	set softtabstop=2
+	set shiftwidth=2
 	set colorcolumn=80
 	set expandtab
     set tw=0
@@ -197,12 +200,12 @@ function! SetTex()
 	map <buffer> <leader>e <F5>
 	imap <buffer> <C-e> <F5>
 	map <buffer> <leader><S-e> <S-F5>
-	map <buffer> <leader>j <F7>
 	imap <buffer> <C-f> <F7>
 	nnoremap <buffer> <leader>d <F9>
 	imap <buffer> <C-Space> <F9>
 	nnoremap <buffer> <Leader>r :call SyncTexForward()<CR>
 	nnoremap <buffer> <leader>f :update!<CR>:silent call Tex_RunLaTeX()<CR>
+    nnoremap <leader>j :wa<CR> :!clear<CR> :!make<CR>
 	call IMAP('`w', '\omega', 'tex')
 endfunction
 
